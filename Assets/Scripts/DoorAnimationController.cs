@@ -2,25 +2,21 @@ using UnityEngine;
 
 public class DoorAnimatorController : MonoBehaviour
 {
-    private Animator animator;
-    private bool isOpen = false;
+    public Animator animator;
 
-    void Start()
-    {
-        animator = GetComponent<Animator>();
-    }
-
-    public void ToggleDoor()
-    {
-        isOpen = !isOpen;
-        animator.SetBool("isOpen", isOpen);
-    }
-
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            ToggleDoor();
+            animator.SetTrigger("open");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            animator.SetTrigger("close");
         }
     }
 }
