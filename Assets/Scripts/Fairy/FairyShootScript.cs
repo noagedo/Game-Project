@@ -8,11 +8,14 @@ public class FairyShootScript : MonoBehaviour
 
     void Update()
     {
+
+        Animator animator = GetComponent<Animator>();
+        if (animator != null && animator.GetBool("isDead")) return;
         if (Input.GetKeyDown(KeyCode.Space))
         {
             GameObject bullet = Instantiate(magicBulletPrefab, shootPoint.position, shootPoint.rotation);
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
-            rb.linearVelocity = shootPoint.forward * bulletSpeed;
+            rb.linearVelocity = shootPoint.forward * bulletSpeed; // �����: velocity, �� linearVelocity
         }
     }
 }

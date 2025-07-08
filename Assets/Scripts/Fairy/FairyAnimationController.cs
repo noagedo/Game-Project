@@ -9,16 +9,17 @@ public class FairyAnimationController : MonoBehaviour
     public float attackRange = 2f;
     public LayerMask enemyLayer;
     public float acceleration = 5f;
+
     private Vector3 currentDirection = Vector3.zero;
 
     public Transform cameraTransform;
-    public bool isFirstPerson = false;
 
     private CharacterController controller;
     private Vector3 velocity;
 
     private bool isClimbing = false;
     public float climbSpeed = 3f;
+    public bool isFirstPerson = false;
 
     void Start()
     {
@@ -30,6 +31,8 @@ public class FairyAnimationController : MonoBehaviour
 
     void Update()
     {
+
+        if (animator.GetBool("isDead")) return;
         if (isClimbing)
         {
             ClimbLadder();
@@ -38,13 +41,11 @@ public class FairyAnimationController : MonoBehaviour
 
         Vector3 inputDirection = Vector3.zero;
 
-        // תנועה רגילה לפי ציר עולם
         if (Input.GetKey(KeyCode.W)) inputDirection += Vector3.forward;
         if (Input.GetKey(KeyCode.S)) inputDirection += Vector3.back;
         if (Input.GetKey(KeyCode.A)) inputDirection += Vector3.left;
         if (Input.GetKey(KeyCode.D)) inputDirection += Vector3.right;
 
-        // תנועה אלכסונית
         if (Input.GetKey(KeyCode.Q)) inputDirection += Vector3.forward + Vector3.left;
         if (Input.GetKey(KeyCode.E)) inputDirection += Vector3.forward + Vector3.right;
         if (Input.GetKey(KeyCode.Z)) inputDirection += Vector3.back + Vector3.left;
@@ -52,34 +53,39 @@ public class FairyAnimationController : MonoBehaviour
 
         inputDirection = inputDirection.normalized;
 
-        Vector3 targetDirection = inputDirection;
+        Vector3 targetDirection = Vector3.zero;
 
-        // אם לא בתצוגת First Person – תנועה לפי מצלמה
-        if (!isFirstPerson && inputDirection != Vector3.zero)
+        if (inputDirection != Vector3.zero)
         {
+            // כיוון התנועה לפי המצלמה (Third Person)
             Vector3 camForward = cameraTransform.forward;
             Vector3 camRight = cameraTransform.right;
+
             camForward.y = 0f;
             camRight.y = 0f;
             camForward.Normalize();
             camRight.Normalize();
 
             targetDirection = camForward * inputDirection.z + camRight * inputDirection.x;
-        }
+            targetDirection.Normalize();
 
-        currentDirection = Vector3.Lerp(currentDirection, targetDirection, Time.deltaTime * acceleration);
+            // תנועה חלקה לכיוון המטרה
+            currentDirection = Vector3.Lerp(currentDirection, targetDirection, Time.deltaTime * acceleration);
 
-        if (currentDirection.magnitude >= 0.1f)
-        {
             controller.Move(currentDirection * speed * Time.deltaTime);
 
-            if (!isFirstPerson)
-            {
-                Quaternion toRotation = Quaternion.LookRotation(currentDirection, Vector3.up);
-                transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * 10f);
-            }
+            // סיבוב חלק לכיוון התנועה
+            Quaternion toRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * 10f);
+        }
+        else
+        {
+            // אם אין תנועה – האטה הדרגתית
+            currentDirection = Vector3.Lerp(currentDirection, Vector3.zero, Time.deltaTime * acceleration);
+            controller.Move(currentDirection * speed * Time.deltaTime);
         }
 
+        // גרביטציה
         if (controller.isGrounded && velocity.y < 0)
             velocity.y = -2f;
 
@@ -88,7 +94,8 @@ public class FairyAnimationController : MonoBehaviour
 
         animator.SetFloat("Speed", currentDirection.magnitude);
 
-        if (Input.GetKeyDown(KeyCode.X)) // תקיפה (שיניתי מ־Z כי Z זה אלכסון)
+        // התקפה
+        if (Input.GetKeyDown(KeyCode.X))
         {
             animator.SetTrigger("isAttacking");
             TryAttack();
@@ -114,7 +121,7 @@ public class FairyAnimationController : MonoBehaviour
             if (enemyHealth != null)
             {
                 enemyHealth.TakeDamage(1);
-                Debug.Log("Fairy attack Goblin ");
+                Debug.Log("Fairy attacked Goblin");
             }
         }
     }

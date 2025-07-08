@@ -81,10 +81,12 @@ public class TriviaManager : MonoBehaviour
         else
         {
             feedbackText.text = "Wrong answer, teleporting...";
-            onWrongCallback?.Invoke(); 
+            onWrongCallback?.Invoke();
             triviaPanel.SetActive(false);
-                                         
+
+            questionAnswered = false; // <--- הוסף את זה
         }
+
     }
 
 }
