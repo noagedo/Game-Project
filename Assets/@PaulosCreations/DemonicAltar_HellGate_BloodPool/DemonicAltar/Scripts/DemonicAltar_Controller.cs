@@ -31,6 +31,7 @@ public class DemonicAltar_Controller : MonoBehaviour
 
         altarMat = altarRend.material;
         altarMat.SetColor("_EmissionColor", emissionColor.Evaluate(0));
+        ToggleDemonicAltar();
     }
 
     public void ToggleDemonicAltar()
