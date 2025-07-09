@@ -33,6 +33,8 @@ public class HellGate_Controller : MonoBehaviour
         gateEffectMaterial.SetFloat("_Alpha", 0);
         gateMaterial.SetColor("_EmissionColor", emissionColor.Evaluate(0));
         gateLight.intensity = 0;
+        ToggleHellGate();
+
     }
 
     public void ToggleHellGate()
