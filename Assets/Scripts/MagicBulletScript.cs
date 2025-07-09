@@ -1,23 +1,35 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MagicBulletScript : MonoBehaviour
 {
     public int damage = 1;
+    public float explosionRadius = 3f; // רדיוס פגיעה רחב יותר
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        // פגיעה בכל מי שנמצא סביב מקום הפיצוץ
+        Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
+
+        foreach (Collider hit in hits)
         {
-            GoblinHealthScript goblinHealth = collision.gameObject.GetComponent<GoblinHealthScript>();
-            if (goblinHealth != null)
+            if (hit.CompareTag("Enemy"))
             {
-                goblinHealth.TakeDamage(damage);
+                GoblinHealthScript goblinHealth = hit.GetComponent<GoblinHealthScript>();
+                if (goblinHealth != null)
+                {
+                    goblinHealth.TakeDamage(damage);
+                    Debug.Log("🎯 קסם פגע בגובלין: " + hit.name);
+                }
             }
-            Destroy(gameObject);
         }
-        else
-        {
-            Destroy(gameObject); 
-        }
+
+        Destroy(gameObject); // השמדת הכדור הקסום לאחר הפיצוץ
+    }
+
+    // אופציונלי – לראות את הרדיוס בגיזמוס
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, explosionRadius);
     }
 }
