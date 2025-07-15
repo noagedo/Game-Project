@@ -15,6 +15,10 @@ public class EnemyAI : MonoBehaviour
     private Animator animator;
     private float lastAttackTime;
 
+    public float waitTimeAtPoint = 2f; // כמה זמן להמתין בנקודה
+    private float waitTimer = 0f;
+    private bool waiting = false;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -42,20 +46,35 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
+
     void Patrol()
     {
         animator.SetBool("isMoving", true);
         animator.SetBool("isAttacking", false);
 
-        transform.position = Vector3.MoveTowards(transform.position, targetPoint, patrolSpeed * Time.deltaTime);
-
-        if (Vector3.Distance(transform.position, targetPoint) < 0.1f)
+        if (waiting)
         {
-            targetPoint = targetPoint == pointA.position ? pointB.position : pointA.position;
+            waitTimer += Time.deltaTime;
+            if (waitTimer >= waitTimeAtPoint)
+            {
+                waiting = false;
+                targetPoint = targetPoint == pointA.position ? pointB.position : pointA.position;
+            }
+        }
+        else
+        {
+            transform.position = Vector3.MoveTowards(transform.position, targetPoint, patrolSpeed * Time.deltaTime);
+
+            if (Vector3.Distance(transform.position, targetPoint) < 0.1f)
+            {
+                waiting = true;
+                waitTimer = 0f;
+            }
         }
 
         LookAtDirection(targetPoint);
     }
+
 
     void ChasePlayer()
     {

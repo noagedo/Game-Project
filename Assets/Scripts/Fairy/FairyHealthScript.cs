@@ -31,7 +31,7 @@ public class FairyHealthScript : MonoBehaviour
         }
 
         if (healthText != null)
-            healthText.text = $"חיים: {livesLeft}/{maxLives}";
+            healthText.text = $"life: {livesLeft}/{maxLives}";
 
         if (teleportPoints == null || teleportPoints.Length == 0)
             teleportPoints = FindObjectsOfType<TeleportPoint>();

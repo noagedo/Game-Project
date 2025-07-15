@@ -9,11 +9,17 @@ TagManager:
   - Enemy
   - Bullet
   - Ladder
+  - Goblin
+  - Viillage
+  - Wolf
+  - Zombie
+  - Round-table
+  - Plant
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - PlayerStealth
   - Water
   - UI
   - Minimap
