@@ -16,6 +16,11 @@ public class ChaseAndAttackAI : MonoBehaviour
     private Animator animator;
     private float lastAttackTime;
 
+    public float waitTimeAtPoint = 2f;  // זמן המתנה בכל נקודה
+    private float waitTimer = 0f;
+    private bool waiting = false;
+    private bool isInBattle = false;
+
     void Start()
     {
         if (player == null)
@@ -43,20 +48,38 @@ public class ChaseAndAttackAI : MonoBehaviour
         }
         else
         {
+            if (isInBattle)
+            {
+                FindObjectOfType<MusicManager>().PlayVillageMusic();
+                isInBattle = false;
+            }
             Patrol();
         }
     }
 
     void Patrol()
     {
-        animator.SetBool("isMoving", true);
+        animator.SetBool("isMoving", !waiting);
         animator.SetBool("isAttacking", false);
 
-        transform.position = Vector3.MoveTowards(transform.position, patrolPoint, patrolSpeed * Time.deltaTime);
-
-        if (Vector3.Distance(transform.position, patrolPoint) < 0.1f)
+        if (waiting)
         {
-            patrolPoint = patrolPoint == pointA.position ? pointB.position : pointA.position;
+            waitTimer += Time.deltaTime;
+            if (waitTimer >= waitTimeAtPoint)
+            {
+                waiting = false;
+                patrolPoint = patrolPoint == pointA.position ? pointB.position : pointA.position;
+            }
+        }
+        else
+        {
+            transform.position = Vector3.MoveTowards(transform.position, patrolPoint, patrolSpeed * Time.deltaTime);
+
+            if (Vector3.Distance(transform.position, patrolPoint) < 0.1f)
+            {
+                waiting = true;
+                waitTimer = 0f;
+            }
         }
 
         LookAtDirection(patrolPoint);
@@ -64,6 +87,12 @@ public class ChaseAndAttackAI : MonoBehaviour
 
     void ChasePlayer()
     {
+
+        if (!isInBattle)
+        {
+            FindObjectOfType<MusicManager>().PlayBattleMusic();
+            isInBattle = true;
+        }
         animator.SetBool("isMoving", true);
         animator.SetBool("isAttacking", false);
 

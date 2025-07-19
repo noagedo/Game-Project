@@ -15,9 +15,10 @@ public class EnemyAI : MonoBehaviour
     private Animator animator;
     private float lastAttackTime;
 
-    public float waitTimeAtPoint = 2f; // כמה זמן להמתין בנקודה
+    public float waitTimeAtPoint = 2f; 
     private float waitTimer = 0f;
     private bool waiting = false;
+    private bool isInBattle = false;
 
     void Start()
     {
@@ -42,6 +43,11 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
+            if (isInBattle)
+            {
+                FindObjectOfType<MusicManager>().PlayVillageMusic();
+                isInBattle = false;
+            }
             Patrol();
         }
     }
@@ -78,6 +84,12 @@ public class EnemyAI : MonoBehaviour
 
     void ChasePlayer()
     {
+
+        if (!isInBattle)
+        {
+            FindObjectOfType<MusicManager>().PlayBattleMusic();
+            isInBattle = true;
+        }
         animator.SetBool("isMoving", true);
         animator.SetBool("isAttacking", false);
 
@@ -89,19 +101,37 @@ public class EnemyAI : MonoBehaviour
     {
         animator.SetBool("isMoving", false);
 
-        if (Time.time - lastAttackTime > attackCooldown)
+        // בדיקת פיה בטווח פיזי (מגע)
+        Collider[] hitPlayers = Physics.OverlapSphere(transform.position, attackRange);
+        bool playerInRange = false;
+
+        foreach (Collider col in hitPlayers)
         {
-            animator.SetBool("isAttacking", true);
-            lastAttackTime = Time.time;
-
-            
-            FairyHealthScript fairyHealth = player.GetComponent<FairyHealthScript>();
-            if (fairyHealth != null)
+            if (col.CompareTag("Player"))
             {
-                fairyHealth.TakeDamage(1);
-            }
+                playerInRange = true;
 
-            Debug.Log("The goblin attack the fairy");
+                if (Time.time - lastAttackTime > attackCooldown)
+                {
+                    animator.SetBool("isAttacking", true);
+                    lastAttackTime = Time.time;
+
+                    FairyHealthScript fairyHealth = col.GetComponent<FairyHealthScript>();
+                    if (fairyHealth != null)
+                    {
+                        fairyHealth.TakeDamage(1);
+                    }
+
+                    Debug.Log("The goblin attacked the fairy!");
+                }
+
+                break; // תוקפים רק פעם אחת
+            }
+        }
+
+        if (!playerInRange)
+        {
+            animator.SetBool("isAttacking", false); // לא תוקף אם אין פיה בטווח
         }
 
         LookAtDirection(player.position);
