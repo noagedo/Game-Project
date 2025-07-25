@@ -1,16 +1,44 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    public void StartGame()
+
+    public Canvas quitMenu;
+    public Button startText;
+    public Button exitText;
+
+    void Start()
+    {
+        quitMenu.enabled = false;
+    }
+
+    public void ExitPress()
+    {
+        quitMenu.enabled = true;
+        startText.enabled = false;
+        exitText.enabled = false;
+    }
+
+    public void noPress()
+    {
+        quitMenu.enabled = false;
+        startText.enabled = true;
+        exitText.enabled = true;
+    }
+    public void StartLevel()
     {
         SceneManager.LoadScene("SceneOne");
     }
-
-    public void QuitGame()
+    public void ExitGame()
     {
         Application.Quit();
-        Debug.Log("Game closed"); 
     }
+    public void ReturnToMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu"); 
+    }
+
+
 }
