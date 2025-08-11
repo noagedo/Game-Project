@@ -31,7 +31,6 @@ public class FairyAnimationController : MonoBehaviour
 
     void Update()
     {
-
         if (animator.GetBool("isDead")) return;
         if (isClimbing)
         {
@@ -39,20 +38,11 @@ public class FairyAnimationController : MonoBehaviour
             return;
         }
 
-        Vector3 inputDirection = Vector3.zero;
+        // קריאת כיוונים מהמקלדת (WASD)
+        float horizontal = Input.GetAxisRaw("Horizontal"); // A=-1, D=1
+        float vertical = Input.GetAxisRaw("Vertical");     // W=1, S=-1
 
-        if (Input.GetKey(KeyCode.W)) inputDirection += Vector3.forward;
-        if (Input.GetKey(KeyCode.S)) inputDirection += Vector3.back;
-        if (Input.GetKey(KeyCode.A)) inputDirection += Vector3.left;
-        if (Input.GetKey(KeyCode.D)) inputDirection += Vector3.right;
-
-        if (Input.GetKey(KeyCode.Q)) inputDirection += Vector3.forward + Vector3.left;
-        if (Input.GetKey(KeyCode.E)) inputDirection += Vector3.forward + Vector3.right;
-        if (Input.GetKey(KeyCode.Z)) inputDirection += Vector3.back + Vector3.left;
-        if (Input.GetKey(KeyCode.X)) inputDirection += Vector3.back + Vector3.right;
-
-        inputDirection = inputDirection.normalized;
-
+        Vector3 inputDirection = new Vector3(horizontal, 0, vertical).normalized;
         Vector3 targetDirection = Vector3.zero;
 
         if (inputDirection != Vector3.zero)
