@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System;
 using TMPro;
+using UnityEngine.UI;
 
 public class TriviaManager : MonoBehaviour
 {
@@ -9,10 +8,9 @@ public class TriviaManager : MonoBehaviour
     public Text questionText;
     public Text feedbackText;
     public Button[] answerButtons;
-    public Transform teleportLocation;
 
-    private Action onCorrectCallback;
-    private Action onWrongCallback;
+    private System.Action onCorrectCallback;
+    private System.Action onWrongCallback;
 
     private bool questionAnswered = false;
 
@@ -25,15 +23,9 @@ public class TriviaManager : MonoBehaviour
             feedbackText.text = "";
     }
 
-    public void ShowQuestion(Action onCorrect, Action onWrong)
+    public void ShowQuestion(System.Action onCorrect, System.Action onWrong)
     {
         if (questionAnswered) return;
-
-      
-        if (questionText == null) { Debug.LogError("❌ questionText is null!"); return; }
-        if (feedbackText == null) { Debug.LogError("❌ feedbackText is null!"); return; }
-        if (answerButtons == null || answerButtons.Length < 3) { Debug.LogError("❌ answerButtons missing!"); return; }
-        if (triviaPanel == null) { Debug.LogError("❌ triviaPanel is null!"); return; }
 
         onCorrectCallback = onCorrect;
         onWrongCallback = onWrong;
@@ -57,13 +49,13 @@ public class TriviaManager : MonoBehaviour
     {
         if (!triviaPanel.activeSelf) return;
 
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKeyDown(KeyCode.Alpha4))
             answerButtons[0].onClick.Invoke();
 
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
+        else if (Input.GetKeyDown(KeyCode.Alpha5))
             answerButtons[1].onClick.Invoke();
 
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
+        else if (Input.GetKeyDown(KeyCode.Alpha6))
             answerButtons[2].onClick.Invoke();
     }
 
@@ -81,12 +73,9 @@ public class TriviaManager : MonoBehaviour
         else
         {
             feedbackText.text = "Wrong answer, teleporting...";
-            onWrongCallback?.Invoke();
             triviaPanel.SetActive(false);
-
-            questionAnswered = false; // <--- הוסף את זה
+            onWrongCallback?.Invoke();
+            questionAnswered = false;
         }
-
     }
-
 }
