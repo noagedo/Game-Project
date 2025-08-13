@@ -9914,7 +9914,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Back To The Menu
+  m_text: 'Back To The Menu
+
+    Press 1'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c8aafbccb5c3d394481c05db4f8f791e, type: 2}
   m_sharedMaterial: {fileID: -9025748716467213111, guid: c8aafbccb5c3d394481c05db4f8f791e, type: 2}
@@ -17699,7 +17701,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Contuinue To Play
+  m_text: 'Contuinue To Play
+
+    Press 2'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c8aafbccb5c3d394481c05db4f8f791e, type: 2}
   m_sharedMaterial: {fileID: -9025748716467213111, guid: c8aafbccb5c3d394481c05db4f8f791e, type: 2}

@@ -7,7 +7,7 @@ public class PinkForestIntro : MonoBehaviour
 
     void Start()
     {
-        tutorialText3D.text = "\nYour goal is to steal the crystal\nfrom the basement of the house.";
+        tutorialText3D.text = "\nYour goal is to steal the crystal\nfrom the house.";
         tutorialText3D.gameObject.SetActive(true);
 
         Invoke(nameof(HideIntro), 3f); // יסתיר את ההודעה אחרי 3 שניות
