@@ -1,17 +1,29 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class CrystalPickupScript : MonoBehaviour
 {
     public int points = 1;
+    private bool collected = false;
+    private Collider col;
+
+    void Awake()
+    {
+        GameManager.RegisterCrystal();
+        col = GetComponent<Collider>();
+    }
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Triggered by " + other.name);
+        if (collected) return;
+
         if (other.CompareTag("Player"))
         {
-            Debug.Log("Crystal collected!");
-            GameManager.AddCrystals(points);
+            collected = true;
+
+            if (col) col.enabled = false; // למנוע כפילויות טריגר
+
+            GameManager.AddCrystals(points);   // מעלה מונה מצטבר
+            GameManager.UnregisterCrystal();   // מפחית "כמה נשאר בסצנה"
             Destroy(gameObject);
         }
     }

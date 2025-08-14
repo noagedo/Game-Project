@@ -3,34 +3,76 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public static int crystals = 0;
+    public static GameManager Instance;
+
+    public static int crystals = 0;   // מצטבר בין סצנות
     public static int lives = 3;
     public static int maxLives = 3;
     public static int score = 0;
 
-    private static int totalCrystalsInScene;
+    private static int remainingCrystals; // כמה נשאר לאסוף בסצנה הנוכחית
 
-    private void Start()
+    void Awake()
     {
-        // סופרים את כל הקריסטלים עם הטאג "Crystal" בתחילת הסצנה
-        totalCrystalsInScene = GameObject.FindGameObjectsWithTag("Crystal").Length;
-        crystals = 0;
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
     }
 
-    public static void AddCrystals(int amount)
+    void OnDestroy()
     {
-        crystals += amount;
-        Debug.Log("Score of Crystals: " + crystals);
+        if (Instance == this)
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // בתחילת כל סצנה מאפסים רק את המונה של מה שנשאר בסצנה
+        remainingCrystals = 0;
+
+        // רענון UI עם הערכים המצטברים
         if (UIManager.Instance != null)
+        {
             UIManager.Instance.UpdateCrystalsUI(crystals);
+            UIManager.Instance.UpdateHealthUI(lives, maxLives);
+        }
+    }
 
-        
-        if (crystals >= totalCrystalsInScene)
+    // קריסטל נרשם כשהוא נטען (Awake של הקריסטל)
+    public static void RegisterCrystal()
+    {
+        remainingCrystals++;
+        // אופציונלי: Debug.Log("Registered crystal. Remaining in scene: " + remainingCrystals);
+    }
+
+    // נקרא כשקריסטל נאסף בפועל
+    public static void UnregisterCrystal()
+    {
+        remainingCrystals--;
+        // אופציונלי: Debug.Log("Unregistered crystal. Remaining in scene: " + remainingCrystals);
+
+        if (remainingCrystals <= 0)
         {
             Debug.Log("All Crystal Picked up!");
             LoadNextOrVictoryScene();
         }
+    }
+
+    public static void AddCrystals(int amount)
+    {
+        crystals += amount; // מצטבר
+        Debug.Log("Total Crystals Collected (cumulative): " + crystals);
+
+        if (UIManager.Instance != null)
+            UIManager.Instance.UpdateCrystalsUI(crystals);
     }
 
     public static void LoseLife(int amount)
@@ -44,7 +86,7 @@ public class GameManager : MonoBehaviour
         if (lives <= 0)
         {
             Debug.Log("Game Over!");
-            
+            // טפל במסך Game Over אם תרצה
         }
     }
 
@@ -58,13 +100,9 @@ public class GameManager : MonoBehaviour
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
-        if (currentSceneIndex == 3)
-        {
-            SceneManager.LoadScene("VictoryScene"); 
-        }
+        if (currentSceneIndex == 3) // כמו אצלך
+            SceneManager.LoadScene("VictoryScene");
         else
-        {
             SceneManager.LoadScene(currentSceneIndex + 1);
-        }
     }
 }
