@@ -14,6 +14,15 @@ public class MainMenu : MonoBehaviour
         quitMenu.enabled = false;
     }
 
+    void Update()
+    {
+        
+        if (Input.GetKeyDown(KeyCode.Alpha0))
+        {
+            ReturnToMainMenu();
+        }
+    }
+
     public void ExitPress()
     {
         quitMenu.enabled = true;
