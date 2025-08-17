@@ -5,12 +5,12 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
-    public static int crystals = 0;   // מצטבר בין סצנות
+    public static int crystals = 0;   
     public static int lives = 3;
     public static int maxLives = 3;
     public static int score = 0;
 
-    private static int remainingCrystals; // כמה נשאר לאסוף בסצנה הנוכחית
+    private static int remainingCrystals; 
 
     void Awake()
     {
@@ -35,10 +35,10 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // בתחילת כל סצנה מאפסים רק את המונה של מה שנשאר בסצנה
+        
         remainingCrystals = 0;
 
-        // רענון UI עם הערכים המצטברים
+        
         if (UIManager.Instance != null)
         {
             UIManager.Instance.UpdateCrystalsUI(crystals);
@@ -46,18 +46,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    // קריסטל נרשם כשהוא נטען (Awake של הקריסטל)
+    
     public static void RegisterCrystal()
     {
         remainingCrystals++;
-        // אופציונלי: Debug.Log("Registered crystal. Remaining in scene: " + remainingCrystals);
+       
     }
 
-    // נקרא כשקריסטל נאסף בפועל
+   
     public static void UnregisterCrystal()
     {
         remainingCrystals--;
-        // אופציונלי: Debug.Log("Unregistered crystal. Remaining in scene: " + remainingCrystals);
+        
 
         if (remainingCrystals <= 0)
         {
@@ -68,7 +68,7 @@ public class GameManager : MonoBehaviour
 
     public static void AddCrystals(int amount)
     {
-        crystals += amount; // מצטבר
+        crystals += amount; 
         Debug.Log("Total Crystals Collected (cumulative): " + crystals);
 
         if (UIManager.Instance != null)
@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
         if (lives <= 0)
         {
             Debug.Log("Game Over!");
-            // טפל במסך Game Over אם תרצה
+            
         }
     }
 
@@ -100,7 +100,7 @@ public class GameManager : MonoBehaviour
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
 
-        if (currentSceneIndex == 3) // כמו אצלך
+        if (currentSceneIndex == 3) 
             SceneManager.LoadScene("VictoryScene");
         else
             SceneManager.LoadScene(currentSceneIndex + 1);

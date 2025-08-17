@@ -4,7 +4,7 @@ public class WolfSimpleAI : MonoBehaviour
 {
     private Animator animator;
 
-    public AudioSource howlAudio;  // שדה להוספת האודיו בממשק
+    public AudioSource howlAudio; 
 
     private float timer = 0f;
     private float howlDuration = 5f;

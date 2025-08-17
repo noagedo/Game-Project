@@ -10,7 +10,7 @@ public class ExampleFracture : MonoBehaviour
 
     void Update()
     {
-        //Code loops through asteroids and fractures them on space
+        
         if (Input.GetKeyDown(KeyCode.Space))
         {
             asteroids[counter].GetComponent<Fracture>().FractureObject();

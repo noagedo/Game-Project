@@ -101,7 +101,7 @@ public class EnemyAI : MonoBehaviour
     {
         animator.SetBool("isMoving", false);
 
-        // בדיקת פיה בטווח פיזי (מגע)
+        
         Collider[] hitPlayers = Physics.OverlapSphere(transform.position, attackRange);
         bool playerInRange = false;
 
@@ -125,13 +125,13 @@ public class EnemyAI : MonoBehaviour
                     Debug.Log("The goblin attacked the fairy!");
                 }
 
-                break; // תוקפים רק פעם אחת
+                break; 
             }
         }
 
         if (!playerInRange)
         {
-            animator.SetBool("isAttacking", false); // לא תוקף אם אין פיה בטווח
+            animator.SetBool("isAttacking", false); 
         }
 
         LookAtDirection(player.position);

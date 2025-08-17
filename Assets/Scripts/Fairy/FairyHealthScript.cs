@@ -71,7 +71,7 @@ public class FairyHealthScript : MonoBehaviour
 
     void Die()
     {
-        if (isDead) return; // הגנה כפולה
+        if (isDead) return; 
 
         isDead = true;
         Debug.Log("Fairy Die");

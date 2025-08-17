@@ -38,16 +38,16 @@ public class FairyAnimationController : MonoBehaviour
             return;
         }
 
-        // קריאת כיוונים מהמקלדת (WASD)
-        float horizontal = Input.GetAxisRaw("Horizontal"); // A=-1, D=1
-        float vertical = Input.GetAxisRaw("Vertical");     // W=1, S=-1
+        
+        float horizontal = Input.GetAxisRaw("Horizontal"); 
+        float vertical = Input.GetAxisRaw("Vertical");    
 
         Vector3 inputDirection = new Vector3(horizontal, 0, vertical).normalized;
         Vector3 targetDirection = Vector3.zero;
 
         if (inputDirection != Vector3.zero)
         {
-            // כיוון התנועה לפי המצלמה (Third Person)
+            
             Vector3 camForward = cameraTransform.forward;
             Vector3 camRight = cameraTransform.right;
 
@@ -59,23 +59,23 @@ public class FairyAnimationController : MonoBehaviour
             targetDirection = camForward * inputDirection.z + camRight * inputDirection.x;
             targetDirection.Normalize();
 
-            // תנועה חלקה לכיוון המטרה
+            
             currentDirection = Vector3.Lerp(currentDirection, targetDirection, Time.deltaTime * acceleration);
 
             controller.Move(currentDirection * speed * Time.deltaTime);
 
-            // סיבוב חלק לכיוון התנועה
+            
             Quaternion toRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
             transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, Time.deltaTime * 10f);
         }
         else
         {
-            // אם אין תנועה – האטה הדרגתית
+            
             currentDirection = Vector3.Lerp(currentDirection, Vector3.zero, Time.deltaTime * acceleration);
             controller.Move(currentDirection * speed * Time.deltaTime);
         }
 
-        // גרביטציה
+        
         if (controller.isGrounded && velocity.y < 0)
             velocity.y = -2f;
 
@@ -84,7 +84,7 @@ public class FairyAnimationController : MonoBehaviour
 
         animator.SetFloat("Speed", currentDirection.magnitude);
 
-        // התקפה
+        
         if (Input.GetKeyDown(KeyCode.X))
         {
             animator.SetTrigger("isAttacking");

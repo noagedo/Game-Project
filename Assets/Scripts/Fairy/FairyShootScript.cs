@@ -10,7 +10,7 @@ public class FairyShootScript : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) // לדוגמה, ירי כשנלחץ רווח
+        if (Input.GetKeyDown(KeyCode.Space)) 
         {
             ShootSpread();
         }

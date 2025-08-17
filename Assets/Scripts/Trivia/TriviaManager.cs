@@ -33,7 +33,7 @@ public class TriviaManager : MonoBehaviour
         answerButtons[2].GetComponentInChildren<TextMeshProUGUI>().text = "6";
         foreach (Button btn in answerButtons)
             btn.onClick.RemoveAllListeners();
-        // הגדרת התשובות
+       
         answerButtons[0].onClick.AddListener(() => Answer(false));
         answerButtons[1].onClick.AddListener(() => Answer(false));
         answerButtons[2].onClick.AddListener(() => Answer(true));

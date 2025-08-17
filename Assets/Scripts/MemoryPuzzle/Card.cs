@@ -4,7 +4,7 @@ public class Card : MonoBehaviour
 {
     public GameObject front;
     public GameObject back;
-    public int cardKeyNumber; // מספר 1-6
+    public int cardKeyNumber; 
 
     private MatchingGameManager manager;
     private bool isFlipped = false;

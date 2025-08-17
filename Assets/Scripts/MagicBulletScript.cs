@@ -3,11 +3,11 @@
 public class MagicBulletScript : MonoBehaviour
 {
     public int damage = 1;
-    public float explosionRadius = 3f; // רדיוס פגיעה רחב יותר
+    public float explosionRadius = 3f; 
 
     void OnCollisionEnter(Collision collision)
     {
-        // פגיעה בכל מי שנמצא סביב מקום הפיצוץ
+        
         Collider[] hits = Physics.OverlapSphere(transform.position, explosionRadius);
 
         foreach (Collider hit in hits)
@@ -23,10 +23,10 @@ public class MagicBulletScript : MonoBehaviour
             }
         }
 
-        Destroy(gameObject); // השמדת הכדור הקסום לאחר הפיצוץ
+        Destroy(gameObject); 
     }
 
-    // אופציונלי – לראות את הרדיוס בגיזמוס
+    
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.cyan;

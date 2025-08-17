@@ -33,13 +33,13 @@ public class UIManager : MonoBehaviour
 
     void Start()
     {
-        UpdateCrystalsUI(GameManager.crystals);          // מצטבר
+        UpdateCrystalsUI(GameManager.crystals);         
         UpdateHealthUI(GameManager.lives, GameManager.maxLives);
     }
 
     void OnSceneLoaded(Scene s, LoadSceneMode m)
     {
-        // לרענן UI בכל סצנה (במיוחד אם הערכים השתנו בזמן טעינה)
+        
         UpdateCrystalsUI(GameManager.crystals);
         UpdateHealthUI(GameManager.lives, GameManager.maxLives);
     }
@@ -47,7 +47,7 @@ public class UIManager : MonoBehaviour
     public void UpdateCrystalsUI(int amount)
     {
         if (crystalsText != null)
-            crystalsText.text = "Crystals: " + amount;   // מצטבר
+            crystalsText.text = "Crystals: " + amount;   
     }
 
     public void UpdateHealthUI(int current, int max)

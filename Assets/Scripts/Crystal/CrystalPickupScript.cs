@@ -20,10 +20,10 @@ public class CrystalPickupScript : MonoBehaviour
         {
             collected = true;
 
-            if (col) col.enabled = false; // למנוע כפילויות טריגר
+            if (col) col.enabled = false; 
 
-            GameManager.AddCrystals(points);   // מעלה מונה מצטבר
-            GameManager.UnregisterCrystal();   // מפחית "כמה נשאר בסצנה"
+            GameManager.AddCrystals(points);   
+            GameManager.UnregisterCrystal();   
             Destroy(gameObject);
         }
     }

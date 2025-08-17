@@ -3,9 +3,9 @@ using UnityEngine.AI;
 
 public class WolfAI : MonoBehaviour
 {
-    public Transform player;             // הפיה
-    public float detectionRange = 10f;   // מתי הזאב מתחיל לזוז
-    public float attackRange = 2f;       // מתי הוא תוקף
+    public Transform player;             
+    public float detectionRange = 10f;   
+    public float attackRange = 2f;       
     public float maxHealth = 100f;
     private bool canAttack = true;
 
@@ -37,7 +37,7 @@ public class WolfAI : MonoBehaviour
             if (distance < attackRange)
             {
                 animator.SetTrigger("attack");
-                // כאן אפשר להוסיף נזק לשחקנית
+                
             }
         }
         else
@@ -47,7 +47,7 @@ public class WolfAI : MonoBehaviour
         }
     }
 
-    // קריאה כשפוגעים בזאב (למשל מקסם של הפיה)
+    
     public void TakeDamage(float amount)
     {
         if (isDead) return;
@@ -65,8 +65,8 @@ public class WolfAI : MonoBehaviour
         isDead = true;
         animator.SetBool("isDead", true);
         agent.isStopped = true;
-        GetComponent<Collider>().enabled = false; // לא חובה אבל מונע פגיעות נוספות
-        // אפשר גם: Destroy(gameObject, 5f);
+        GetComponent<Collider>().enabled = false; 
+        
     }
 
     void OnTriggerEnter(Collider other)
@@ -79,7 +79,7 @@ public class WolfAI : MonoBehaviour
             if (fairyHealth != null)
             {
                 fairyHealth.TakeDamage(1);
-                animator.SetTrigger("attack");  // תפעיל גם את אנימציית התקיפה
+                animator.SetTrigger("attack");  
                 StartCoroutine(AttackCooldown());
             }
         }
@@ -88,7 +88,7 @@ public class WolfAI : MonoBehaviour
     System.Collections.IEnumerator AttackCooldown()
     {
         canAttack = false;
-        yield return new WaitForSeconds(1.5f); // זמן המתנה בין תקיפות
+        yield return new WaitForSeconds(1.5f); 
         canAttack = true;
     }
 }

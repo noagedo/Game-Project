@@ -3,9 +3,9 @@ using TMPro;
 
 public class DynamicSubtitleSimple : MonoBehaviour
 {
-    public TextMeshPro tutorialText3D;  // טקסט תלת־ממד שיופיע
-    public Transform playerCamera;       // גררי את Main Camera כאן
-    public float displayTime = 3f;       // כמה זמן כל הודעה תוצג
+    public TextMeshPro tutorialText3D;  
+    public Transform playerCamera;       
+    public float displayTime = 3f;       
 
     private int currentMessage = 0;
 
@@ -16,14 +16,14 @@ public class DynamicSubtitleSimple : MonoBehaviour
 
     void Update()
     {
-        // הטקסט תמיד פונה לשחקן
+        
         if (playerCamera != null && tutorialText3D.gameObject.activeSelf)
         {
             Vector3 lookPos = playerCamera.position - tutorialText3D.transform.position;
-            lookPos.y = 0; // נשאר בגובה קבוע
+            lookPos.y = 0; 
             tutorialText3D.transform.rotation = Quaternion.LookRotation(lookPos);
 
-            // סובב 180 מעלות סביב ציר Y כדי שהתווים יופיעו נכון
+            
             tutorialText3D.transform.Rotate(0f, 180f, 0f);
         }
     }

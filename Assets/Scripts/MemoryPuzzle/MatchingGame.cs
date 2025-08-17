@@ -45,7 +45,7 @@ public class MatchingGameManager : MonoBehaviour
     {
         busy = true;
 
-        // ⏳ תני ליוניטי הזדמנות להציג את הקלף השני!
+        
         yield return new WaitForSeconds(0.5f);
 
         if (firstCard.GetCardTag() == secondCard.GetCardTag())
@@ -65,7 +65,7 @@ public class MatchingGameManager : MonoBehaviour
         }
         else
         {
-            yield return new WaitForSeconds(1f); // אפשרי: זמן נוסף לפני סגירה
+            yield return new WaitForSeconds(1f); 
             firstCard.CloseCard();
             secondCard.CloseCard();
         }

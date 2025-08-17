@@ -7,7 +7,7 @@ public class PatrolEnemy : MonoBehaviour
     public Transform[] patrolPoints;
     private NavMeshAgent agent;
     private int currentPoint = 0;
-    private bool isWaiting = false; // דגל להשהייה
+    private bool isWaiting = false; 
 
     void Start()
     {
@@ -21,7 +21,7 @@ public class PatrolEnemy : MonoBehaviour
         if (patrolPoints.Length == 0) return;
         agent.destination = patrolPoints[currentPoint].position;
         currentPoint = (currentPoint + 1) % patrolPoints.Length;
-        isWaiting = false; // איפוס דגל ההמתנה
+        isWaiting = false; 
     }
 
     void Update()
@@ -34,7 +34,7 @@ public class PatrolEnemy : MonoBehaviour
 
     IEnumerator WaitAndMove()
     {
-        isWaiting = true; // מסמן שאנחנו מחכים עכשיו
+        isWaiting = true; 
         yield return new WaitForSeconds(2);
         GoToNextPoint();
     }

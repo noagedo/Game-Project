@@ -16,7 +16,7 @@ public class ChaseAndAttackAI : MonoBehaviour
     private Animator animator;
     private float lastAttackTime;
 
-    public float waitTimeAtPoint = 2f;  // זמן המתנה בכל נקודה
+    public float waitTimeAtPoint = 2f;  
     private float waitTimer = 0f;
     private bool waiting = false;
     private bool isInBattle = false;

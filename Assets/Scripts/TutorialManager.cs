@@ -4,20 +4,20 @@ using TMPro;
 public class TutorialManager : MonoBehaviour
 {
     [Header("3D Tutorial Text")]
-    public TextMeshPro tutorialText3D;  // הטקסט התלת־ממדי
+    public TextMeshPro tutorialText3D;  
 
     [Header("2D UI Tutorial Text")]
-    public TextMeshProUGUI tutorialSideText2D; // ההודעה בצד המסך (2D)
+    public TextMeshProUGUI tutorialSideText2D; 
 
     private int step = 0;
 
     void Start()
     {
-        // מציגים הודעת פתיחה ב-3D למשך 3 שניות
+        
         tutorialText3D.text = "Welcome!\n Help the fairy collect all the crystals\n and avoid the goblins.";
         tutorialText3D.gameObject.SetActive(true);
 
-        tutorialSideText2D.text = "[M] Map\n[Enter] Shoot\n[C] Camera";  // הטקסט בצד המסך תמיד מוצג
+        tutorialSideText2D.text = "[M] Map\n[Enter] Shoot\n[C] Camera"; 
 
         Invoke(nameof(StartTutorial), 3f);
     }
@@ -66,7 +66,7 @@ public class TutorialManager : MonoBehaviour
         tutorialText3D.text = message;
         tutorialText3D.gameObject.SetActive(true);
         CancelInvoke(nameof(Hide3DTutorial));
-        Invoke(nameof(Hide3DTutorial), 3f); // הטקסט ייעלם אחרי 3 שניות
+        Invoke(nameof(Hide3DTutorial), 3f); 
     }
 
     void Hide3DTutorial()

@@ -42,12 +42,12 @@ public class MultiCameraMouseController : MonoBehaviour
         {
             yRotation += mouseX;
             xRotation -= mouseY;
-            xRotation = Mathf.Clamp(xRotation, -90f, 90f); // כדי לא להסתובב לגמרי אחורה
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f); 
 
-            // סיבוב המצלמה למעלה ולמטה
+           
             transform.localRotation = Quaternion.Euler(xRotation, yRotation, 0f);
 
-            // סיבוב גוף השחקן רק בציר Y
+            
             if (playerBody != null)
                 playerBody.rotation = Quaternion.Euler(0f, yRotation, 0f);
         }

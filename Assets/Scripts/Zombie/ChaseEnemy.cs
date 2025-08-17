@@ -3,9 +3,9 @@ using UnityEngine.AI;
 
 public class ChaseEnemy : MonoBehaviour
 {
-    public Transform player; // גררי את השחקן לכאן
-    public float chaseRange = 10f; // טווח זיהוי
-    public float attackRange = 2f; // טווח תקיפה
+    public Transform player; 
+    public float chaseRange = 10f; 
+    public float attackRange = 2f; 
 
     private NavMeshAgent agent;
     private Animator animator;
@@ -32,7 +32,7 @@ public class ChaseEnemy : MonoBehaviour
             agent.SetDestination(player.position);
 
             float speed = agent.velocity.magnitude;
-            animator.SetFloat("Speed", speed); // אנימציית הליכה
+            animator.SetFloat("Speed", speed); 
 
             if (distance <= attackRange)
             {
@@ -66,7 +66,7 @@ public class ChaseEnemy : MonoBehaviour
         isDead = true;
         agent.isStopped = true;
         animator.SetBool("IsDead", true);
-        // אפשר להוסיף השמדת האובייקט אחרי זמן מסוים, למשל:
+        
         Destroy(gameObject, 5f);
     }
 
